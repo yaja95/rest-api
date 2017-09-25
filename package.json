@@ -12,11 +12,13 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
+    // Babel is a dependency so Heroku can build the app
+    // At least I think that's how it works?
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
     "restify": "^6.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
     "eslint": "^4.7.2",
     "nodemon": "^1.12.1",
     "standard": "^10.0.3"
