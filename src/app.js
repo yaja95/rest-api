@@ -16,4 +16,5 @@ server.get('/echo/:name', (req, res, next) => {
   return next()
 })
 
-server.listen(8080, () => console.log(`${server.name} listening at ${server.url}`))
+const port = process.env.PORT || 5000
+server.listen(port, () => console.log(`${server.name} listening at ${server.url}`))
