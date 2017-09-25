@@ -1,0 +1,4 @@
+{
+  "name": "Test Heroku app",
+  "description": "Simple REST API built on node-restify"
+}
