@@ -16,5 +16,10 @@ server.get('/echo/:name', (req, res, next) => {
   return next()
 })
 
+server.get('/', (req, res, next) => {
+  res.send('Hello, world')
+  return next()
+})
+
 const port = process.env.PORT || 5000
 server.listen(port, () => console.log(`${server.name} listening at ${server.url}`))
