@@ -1,28 +1,21 @@
 import Restify from 'restify'
+import Gets from './get'
 
 const server = Restify.createServer({
-  name: '',
-  version: '0.0.0'
+  name: ''
 })
 
-server.pre(Restify.plugins.pre.userAgentConnection())
-server.pre(Restify.plugins.pre.dedupeSlashes())
+server.pre([
+  Restify.plugins.pre.userAgentConnection(),
+  Restify.plugins.pre.sanitizePath()
+])
 
-server.use(Restify.plugins.acceptParser(server.acceptable))
-server.use(Restify.plugins.queryParser())
-server.use(Restify.plugins.bodyParser())
+server.use([
+  Restify.plugins.acceptParser(server.acceptable),
+  Restify.plugins.queryParser(),
+  Restify.plugins.bodyParser()
+])
 
-server.get('/echo', (req, res, next) => {
-  const response = {req, res}
-  res.send(response)
-  return next()
-})
+Gets.forEach(({path, handler}) => server.get(path, handler))
 
-server.get('/', (req, res, next) => {
-  const response = {}
-  res.send(response)
-  return next()
-})
-
-const port = process.env.PORT || 5000
-server.listen(port, () => console.log(`${server.name} listening at ${server.url}`))
+server.listen(process.env.PORT || 5000, () => console.log(`listening at ${server.url}`))
