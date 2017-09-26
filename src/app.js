@@ -1,8 +1,8 @@
 import Restify from 'restify'
 
 const server = Restify.createServer({
-  name: 'node-restify-test',
-  version: '1.0.0'
+  name: '',
+  version: '0.0.0'
 })
 
 server.pre(Restify.plugins.pre.userAgentConnection())
@@ -11,8 +11,9 @@ server.use(Restify.plugins.acceptParser(server.acceptable))
 server.use(Restify.plugins.queryParser())
 server.use(Restify.plugins.bodyParser())
 
-server.get('/echo/:name', (req, res, next) => {
-  res.send(req.params)
+server.get('/echo', (req, res, next) => {
+  const response = {req, res}
+  res.send(response)
   return next()
 })
 
