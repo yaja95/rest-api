@@ -6,7 +6,7 @@ import '../src/app.js'
 
 const client = Clients.createJsonClient({
   url: 'http://localhost:5000',
-  version: '~1.0'
+  version: '~0'
 })
 
 Mocha.describe('REST API', () => {
