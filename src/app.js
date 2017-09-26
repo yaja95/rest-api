@@ -17,7 +17,8 @@ server.get('/echo/:name', (req, res, next) => {
 })
 
 server.get('/', (req, res, next) => {
-  res.send('Hello, world')
+  const response = {}
+  res.send(response)
   return next()
 })
 
