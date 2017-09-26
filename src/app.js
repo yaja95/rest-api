@@ -6,6 +6,7 @@ const server = Restify.createServer({
 })
 
 server.pre(Restify.plugins.pre.userAgentConnection())
+server.pre(Restify.plugins.pre.dedupeSlashes())
 
 server.use(Restify.plugins.acceptParser(server.acceptable))
 server.use(Restify.plugins.queryParser())
