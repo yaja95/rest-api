@@ -7,7 +7,7 @@
     "dev": "nodemon src/app.js --exec babel-node",
     "build": "babel src -d dist",
     "serve": "node dist/app.js",
-    "test": "standard"
+    "test": "standard && mocha --compilers js:babel-register"
   },
   "author": "",
   "license": "UNLICENSED",
@@ -17,8 +17,11 @@
     "restify": "^6.0.1"
   },
   "devDependencies": {
+    "babel-register": "^6.26.0",
     "eslint": "^4.7.2",
+    "mocha": "^3.5.3",
     "nodemon": "^1.12.1",
+    "restify-clients": "^1.5.1",
     "standard": "^10.0.3"
   },
   "engines": {
