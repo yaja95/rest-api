@@ -1,4 +1,16 @@
+import { SESSION_SECRET } from './secrets'
+
 export default [
+  {
+    path: '/secret',
+    handler (req, res, next) {
+      res.send({
+        session_secret: '[REDACTED]',
+        is_development_secret: SESSION_SECRET === 's3cr3t'
+      })
+      next()
+    }
+  },
   {
     path: '/echo',
     handler (req, res, next) {
