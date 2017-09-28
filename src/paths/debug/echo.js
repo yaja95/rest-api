@@ -1,5 +1,5 @@
 export const get = {
-  path: '/echo',
+  path: '/debug/echo',
   handler (req, res, next) {
     // I can't just pass through req here because of circular structure
     // So I've selected out some of the main properties that aren't

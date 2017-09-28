@@ -1,7 +1,7 @@
-import echo from './echo'
+import * as debug from './debug'
 
-export const Gets = [
-  echo.get,
+export const gets = [
+  ...debug.gets,
   {
     path: '/',
     handler (req, res, next) {
