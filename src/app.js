@@ -1,5 +1,5 @@
 import Restify from 'restify'
-import Gets from './get'
+import { Gets } from './paths'
 
 const server = Restify.createServer({
   name: ''
