@@ -15,7 +15,8 @@ server.pre([
 server.use([
   Restify.plugins.acceptParser(server.acceptable),
   Restify.plugins.queryParser(),
-  Restify.plugins.bodyParser({ rejectUnknown: true })
+  Restify.plugins.bodyParser({ rejectUnknown: true }),
+  Restify.plugins.fullResponse()
 ])
 
 server.use(Sessions({
@@ -25,6 +26,11 @@ server.use(Sessions({
 
 server.use(function sessionDemo (req, res, next) {
   req.session.toggle = !req.session.toggle
+  next()
+})
+
+server.use(function cors (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
   next()
 })
 
