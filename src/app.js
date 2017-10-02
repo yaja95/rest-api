@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import Restify from 'restify'
 import Sessions from 'client-sessions'
 import { SESSION_SECRET } from './secrets'
