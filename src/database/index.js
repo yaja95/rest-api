@@ -9,8 +9,8 @@ const sequelize = new Sequelize({
   database: 'cdurham',
   dialect: 'mysql',
   define: {
-    underscored: true,
-    collate: 'utf8_bin'
+    charset: 'utf8',
+    collate: 'utf8_general_ci'
   },
   typeValidation: true,
   operatorsAliases: Sequelize.Op.Aliases
