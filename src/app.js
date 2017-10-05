@@ -40,4 +40,4 @@ Paths.puts.forEach(({path, handler}) => server.put(path, handler))
 Paths.patches.forEach(({path, handler}) => server.patch(path, handler))
 Paths.deletes.forEach(({path, handler}) => server.del(path, handler))
 
-server.listen(process.env.PORT || 5000, () => console.log(`listening at ${server.url}`))
+server.listen(process.env.PORT || 5000, () => console.log(`\nlistening at ${server.url}`))

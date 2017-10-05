@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
     collate: 'utf8_general_ci'
   },
   typeValidation: true,
-  operatorsAliases: Sequelize.Op.Aliases
+  operatorsAliases: false
 })
 
 export const User = sequelize.import('./user')
@@ -22,6 +22,6 @@ export async function init () {
     await sequelize.sync()
     console.log('Connection to database established successfully')
   } catch (err) {
-    console.error('Unable to connect to database: ', err)
+    console.error('Unable to connect to database: ', JSON.stringify(err, null, 2))
   }
 }
