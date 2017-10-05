@@ -15,16 +15,13 @@ const sequelize = new Sequelize({
   operatorsAliases: Sequelize.Op.Aliases
 })
 
+export const User = sequelize.import('./user')
+
 export async function init () {
   try {
-    await sequelize.authenticate()
+    await sequelize.sync()
     console.log('Connection to database established successfully')
-    await Promise.all([
-      User.sync()
-    ])
   } catch (err) {
-    console.error('Unable to connet to database: ', err)
+    console.error('Unable to connect to database: ', err)
   }
 }
-
-export const User = sequelize.import('./user')
