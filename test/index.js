@@ -5,7 +5,7 @@ import Clients from 'restify-clients'
 import Mocha from 'mocha'
 import Password from '../src/password'
 
-Mocha.describe('REST API', () => {
+Mocha.describe('API', () => {
   const client = Clients.createJsonClient({
     url: 'http://localhost:5000'
   })

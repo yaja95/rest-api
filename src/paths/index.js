@@ -10,3 +10,15 @@ export const gets = [
     }
   }
 ]
+
+export const posts = [
+]
+
+export const puts = [
+]
+
+export const patches = [
+]
+
+export const deletes = [
+]

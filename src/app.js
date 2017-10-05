@@ -3,7 +3,7 @@ import 'babel-polyfill'
 import Restify from 'restify'
 import Sessions from 'client-sessions'
 import { SESSION_SECRET } from './secrets'
-import { gets } from './paths'
+import * as paths from './paths'
 
 const server = Restify.createServer({
   name: ''
@@ -26,16 +26,15 @@ server.use(Sessions({
   secret: SESSION_SECRET
 }))
 
-server.use(function sessionDemo (req, res, next) {
-  req.session.toggle = !req.session.toggle
-  next()
-})
-
 server.use(function cors (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   next()
 })
 
-gets.forEach(({path, handler}) => server.get(path, handler))
+paths.gets.forEach(({path, handler}) => server.get(path, handler))
+paths.posts.forEach(({path, handler}) => server.post(path, handler))
+paths.puts.forEach(({path, handler}) => server.put(path, handler))
+paths.patches.forEach(({path, handler}) => server.patch(path, handler))
+paths.deletes.forEach(({path, handler}) => server.del(path, handler))
 
 server.listen(process.env.PORT || 5000, () => console.log(`listening at ${server.url}`))
