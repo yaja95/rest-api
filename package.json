@@ -8,7 +8,7 @@
     "build": "babel src -d dist",
     "serve": "node dist/app.js",
     "fmt": "standard --fix",
-    "test": "standard && mocha --require babel-register"
+    "test": "standard && mocha --require babel-register --exit"
   },
   "author": "",
   "license": "UNLICENSED",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "babel-register": "^6.26.0",
     "eslint": "^4.8.0",
-    "mocha": "^3.5.3",
+    "mocha": "^4.0.0",
     "nodemon": "^1.12.1",
     "read": "^1.0.7",
     "restify-clients": "^1.5.2",
