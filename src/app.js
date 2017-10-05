@@ -2,12 +2,15 @@ import 'babel-polyfill'
 
 import Restify from 'restify'
 import Sessions from 'client-sessions'
+import * as Database from './database'
+import * as Paths from './paths'
 import { SESSION_SECRET } from './secrets'
-import * as paths from './paths'
 
 const server = Restify.createServer({
   name: ''
 })
+
+Database.init()
 
 server.pre([
   Restify.plugins.pre.userAgentConnection(),
@@ -31,10 +34,10 @@ server.use(function cors (req, res, next) {
   next()
 })
 
-paths.gets.forEach(({path, handler}) => server.get(path, handler))
-paths.posts.forEach(({path, handler}) => server.post(path, handler))
-paths.puts.forEach(({path, handler}) => server.put(path, handler))
-paths.patches.forEach(({path, handler}) => server.patch(path, handler))
-paths.deletes.forEach(({path, handler}) => server.del(path, handler))
+Paths.gets.forEach(({path, handler}) => server.get(path, handler))
+Paths.posts.forEach(({path, handler}) => server.post(path, handler))
+Paths.puts.forEach(({path, handler}) => server.put(path, handler))
+Paths.patches.forEach(({path, handler}) => server.patch(path, handler))
+Paths.deletes.forEach(({path, handler}) => server.del(path, handler))
 
 server.listen(process.env.PORT || 5000, () => console.log(`listening at ${server.url}`))
