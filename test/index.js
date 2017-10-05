@@ -1,3 +1,6 @@
+import './env'
+import '../src/app'
+
 import Assert from 'assert'
 import Clients from 'restify-clients'
 import Mocha from 'mocha'
@@ -5,7 +8,7 @@ import Password from '../src/password'
 
 Mocha.describe('API', () => {
   const client = Clients.createJsonClient({
-    url: 'http://localhost:5000'
+    url: 'http://localhost:' + process.env.PORT
   })
 
   Mocha.it('should return 200 OK', done => {

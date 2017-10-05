@@ -9,8 +9,7 @@ function run () {
 }
 
 process.env.SESSION_SECRET = process.env.SESSION_SECRET || 's3cr3t'
-// TODO set DB_PASSWORD on Travis
-if (!process.env.DB_PASSWORD && !process.env.CI) {
+if (!process.env.DB_PASSWORD) {
   Read({
     prompt: 'DB Password: ',
     silent: true,
