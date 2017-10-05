@@ -35,7 +35,7 @@ export const User = sequelize.define('user', {
   },
   password: {
     type: Sequelize.VIRTUAL,
-    async set (val) {
+    set (val) {
       this.setDataValue('password', val)
       this.passwordHash = '<WILL BE REPLACED>'
     }
