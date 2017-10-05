@@ -1,5 +1,3 @@
-import '../src/app.js'
-
 import Assert from 'assert'
 import Clients from 'restify-clients'
 import Mocha from 'mocha'
