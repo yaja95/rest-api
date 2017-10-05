@@ -1,4 +1,4 @@
 {
-  "name": "Test Heroku app",
-  "description": "Simple REST API built on node-restify"
+  "name": "fu-dream-team web api",
+  "description": "Web API for Furman's Computing in Community project"
 }
