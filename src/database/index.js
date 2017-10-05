@@ -1,8 +1,6 @@
 import Sequelize from 'sequelize'
 import { DB_PASSWORD } from '../secrets'
 
-import user from './user'
-
 const sequelize = new Sequelize({
   host: 'cs.furman.edu',
   username: 'cdurham',
@@ -29,4 +27,4 @@ export async function init () {
   }
 }
 
-export const User = user(sequelize)
+export const User = sequelize.import('./user')

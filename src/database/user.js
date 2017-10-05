@@ -1,35 +1,34 @@
 import Password from '../password'
-import Sequelize from 'sequelize'
 
-export default sequelize => sequelize.define('user', {
+export default (sequelize, DataTypes) => sequelize.define('user', {
   username: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
     primaryKey: true
   },
   password: {
-    type: Sequelize.VIRTUAL,
+    type: DataTypes.VIRTUAL,
     set (val) {
       this.setDataValue('password', val)
       this.passwordHash = '<WILL BE REPLACED>'
     }
   },
   passwordHash: {
-    type: Sequelize.CHAR(60),
+    type: DataTypes.CHAR(60),
     allowNull: false
   },
   token: {
-    type: Sequelize.CHAR(36),
+    type: DataTypes.CHAR(36),
     allowNull: true,
     defaultValue: null
   },
   tokenExpiry: {
-    type: Sequelize.DATE,
+    type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: Sequelize.NOW
+    defaultValue: DataTypes.NOW
   },
   admin: {
-    type: Sequelize.BOOLEAN,
+    type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
   }
