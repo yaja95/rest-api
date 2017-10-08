@@ -1,15 +1,10 @@
 import Sequelize from 'sequelize'
-import { DB_PASSWORD } from '../secrets'
+import { JAWSDB_MARIA_URL } from '../secrets'
 
-const sequelize = new Sequelize({
-  host: 'cs.furman.edu',
-  username: 'cdurham',
-  password: DB_PASSWORD,
-  database: 'cdurham',
-  dialect: 'mysql',
+const sequelize = new Sequelize(JAWSDB_MARIA_URL, {
   define: {
-    charset: 'utf8',
-    collate: 'utf8_general_ci'
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_general_ci'
   },
   typeValidation: true,
   operatorsAliases: false

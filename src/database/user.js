@@ -1,10 +1,14 @@
 import Password from '../password'
 
 export default (sequelize, DataTypes) => sequelize.define('user', {
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  uuid: {
+    type: DataTypes.CHAR(36) + ' CHARSET ascii BINARY',
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true
+  },
+  username: {
+    type: DataTypes.TEXT,
+    allowNull: false
   },
   password: {
     type: DataTypes.VIRTUAL,
@@ -14,11 +18,11 @@ export default (sequelize, DataTypes) => sequelize.define('user', {
     }
   },
   passwordHash: {
-    type: DataTypes.CHAR(60),
+    type: DataTypes.CHAR(60) + ' CHARSET ascii BINARY',
     allowNull: false
   },
   token: {
-    type: DataTypes.CHAR(36),
+    type: DataTypes.CHAR(36) + ' CHARSET ascii BINARY',
     allowNull: true,
     defaultValue: null
   },

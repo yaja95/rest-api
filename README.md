@@ -9,3 +9,17 @@
 [![bitHound Code](https://www.bithound.io/github/fu-dream-team/rest-api/badges/code.svg)](https://www.bithound.io/github/fu-dream-team/rest-api)
 
 https://powerful-sands-17762.herokuapp.com
+
+## Run development
+
+```shell
+$ heroku config -s > .env # Or fill out .env for a development db
+$ npm run dev
+```
+
+## Run production
+
+```shell
+$ npm run build
+$ npm run serve
+```
