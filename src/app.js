@@ -1,3 +1,6 @@
+import 'babel-polyfill'
+import '../scripts/env'
+
 import Restify from 'restify'
 import Sessions from 'client-sessions'
 import * as Database from './database'

@@ -4,11 +4,11 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "dev": "babel-node scripts/dev.js --require babel-polyfill",
+    "dev": "set RUN=true && babel-node src/app.js",
     "build": "babel src -d dist",
-    "serve": "RUN=true && node dist/app.js",
+    "serve": "set RUN=true && node --require babel-polyfill dist/app.js",
     "fmt": "standard --fix",
-    "test": "standard && mocha --require babel-register --require babel-polyfill --require test/env.js"
+    "test": "standard && mocha --require babel-register --require babel-polyfill"
   },
   "author": "",
   "license": "UNLICENSED",
