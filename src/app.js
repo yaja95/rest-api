@@ -1,5 +1,3 @@
-import 'babel-polyfill'
-
 import Restify from 'restify'
 import Sessions from 'client-sessions'
 import * as Database from './database'
@@ -9,8 +7,6 @@ import { SESSION_SECRET } from './secrets'
 const server = Restify.createServer({
   name: ''
 })
-
-Database.init()
 
 server.pre([
   Restify.plugins.pre.userAgentConnection(),
@@ -40,4 +36,22 @@ Paths.puts.forEach(({path, handler}) => server.put(path, handler))
 Paths.patches.forEach(({path, handler}) => server.patch(path, handler))
 Paths.deletes.forEach(({path, handler}) => server.del(path, handler))
 
-server.listen(process.env.PORT || 5000, () => console.log(`\nlistening at ${server.url}`))
+export async function start () {
+  try {
+    await Database.init()
+  } catch (err) {
+    throw err
+  }
+  return new Promise(resolve => {
+    server.listen(process.env.PORT || 5000, () => resolve(server.url))
+  })
+}
+
+if (process.env.RUN) {
+  start().then(url => console.log(`listening at ${url}`))
+}
+
+export function stop () {
+  server.close()
+  Database.close()
+}

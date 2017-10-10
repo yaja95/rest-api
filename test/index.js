@@ -1,27 +1,33 @@
-import './env'
-import 'babel-polyfill'
-// import '../src/app'
-
+import * as App from '../src/app'
 import Assert from 'assert'
-// import Clients from 'restify-clients'
+import Clients from 'restify-clients'
 import Mocha from 'mocha'
 import Password from '../src/password'
 import { functions as Utils } from '../src/database/data'
 
 // TODO: Get this test working again
-// Mocha.describe('API', () => {
-//   const client = Clients.createJsonClient({
-//     url: 'http://localhost:' + process.env.PORT
-//   })
+Mocha.describe('API', async function () {
+  const client = Clients.createJsonClient({
+    url: 'http://localhost:' + (process.env.PORT || 5000)
+  })
 
-//   Mocha.it('should return 200 OK', done => {
-//     client.get('/', (err, req, res, obj) => {
-//       Assert.ifError(err)
-//       Assert.equal(200, res.statusCode)
-//       done()
-//     })
-//   })
-// })
+  Mocha.before(async function () {
+    this.timeout(0)
+    await App.start()
+  })
+  Mocha.after(() => {
+    App.stop()
+    client.close()
+  })
+
+  Mocha.it('should return 200 OK', function (done) {
+    client.get('/', (err, req, res, obj) => {
+      Assert.ifError(err)
+      Assert.equal(200, res.statusCode)
+      done()
+    })
+  })
+})
 
 Mocha.describe('Password module', function () {
   const expectedHashTime = 100

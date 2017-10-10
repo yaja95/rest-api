@@ -18,5 +18,10 @@ export async function init () {
     console.log('Connection to database established successfully')
   } catch (err) {
     console.error('Unable to connect to database: ', JSON.stringify(err, null, 2))
+    throw err
   }
+}
+
+export function close () {
+  sequelize.close()
 }
