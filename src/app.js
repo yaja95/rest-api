@@ -51,7 +51,12 @@ export async function start () {
 }
 
 if (process.env.RUN) {
-  start().then(url => console.log(`listening at ${url}`))
+  start()
+    .then(url => console.log(`listening at ${url}`))
+    .catch(err => {
+      console.error(`Error during startup: ${err}`)
+      process.abort()
+    })
 }
 
 export function stop () {
