@@ -18,6 +18,7 @@
     "babel-preset-env": "^1.6.0",
     "bcrypt": "^1.0.3",
     "client-sessions": "^0.8.0",
+    "dotenv-safe": "^4.0.4",
     "mysql2": "^1.4.2",
     "restify": "^6.0.1",
     "restify-errors": "^5.0.0",
@@ -27,7 +28,6 @@
   "devDependencies": {
     "babel-eslint": "^8.0.1",
     "babel-register": "^6.26.0",
-    "dotenv-safe": "^4.0.4",
     "eslint": "^4.8.0",
     "mocha": "^4.0.0",
     "nodemon": "^1.12.1",
