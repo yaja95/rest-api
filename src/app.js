@@ -7,21 +7,26 @@ import Passport from 'passport'
 import { OIDCStrategy } from 'passport-azure-ad'
 import * as Database from './database'
 import * as Paths from './paths'
-import { SESSION_SECRET, AZURE_APP_ID } from './secrets'
+import { SESSION_SECRET, AZURE_APP_ID, AZURE_APP_KEY, COOKIE_ENCRYPTION_KEY, COOKIE_ENCRYPTION_IV } from './secrets'
 
 Passport.use(new OIDCStrategy({
   identityMetadata: 'https://login.microsoftonline.com/furman.onmicrosoft.com/.well-known/openid-configuration',
+  clientID: AZURE_APP_ID,
   responseType: 'code',
   responseMode: 'form_post',
-  redirectURL: 'http://localhost:5000/auth/openid/return/',
-  passReqToCallback: false,
+  redirectURL: 'http://localhost:5000/auth/openid/return',
   allowHttpForRedirectUrl: true,
-  scope: ['email'],
-  clientID: AZURE_APP_ID
+  clientSecret: AZURE_APP_KEY,
+  passReqToCallback: false,
+  scope: [], // add email access here
+  useCookieInsteadOfSession: true,
+  cookieEncryptionKeys: [
+    { key: COOKIE_ENCRYPTION_KEY, iv: COOKIE_ENCRYPTION_IV }
+  ]
 },
   function (iss, sub, profile, accessToken, refreshToken, done) {
-    if (!profile.email) {
-      return done(new Error('No email found'), null)
+    if (!profile.oid) {
+      return done(new Error('No oid found'), null)
     }
     console.log(iss)
     console.log(sub)
@@ -31,12 +36,12 @@ Passport.use(new OIDCStrategy({
     done(null, null)
     // asynchronous verification, for effect...
     // process.nextTick(function () {
-    //   findByEmail(profile.email, function (err, user) {
+    //   findByOid(profile.oid, function (err, user) {
     //     if (err) {
     //       return done(err)
     //     }
     //     if (!user) {
-    //     // "Auto-registration"
+    //       // "Auto-registration"
     //       users.push(profile)
     //       return done(null, profile)
     //     }
@@ -59,7 +64,9 @@ server.use([
   Restify.plugins.acceptParser(server.acceptable),
   Restify.plugins.queryParser(),
   Restify.plugins.bodyParser({ rejectUnknown: true }),
-  Restify.plugins.fullResponse()
+  Restify.plugins.fullResponse(),
+  Passport.initialize(),
+  Passport.session()
 ])
 
 server.use(Sessions({
