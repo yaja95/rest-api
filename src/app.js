@@ -14,15 +14,15 @@ Passport.use(new OIDCStrategy({
   clientID: AZURE_APP_ID,
   responseType: 'code',
   responseMode: 'form_post',
-  redirectURL: 'http://localhost:5000/auth/openid/return',
+  redirectUrl: 'http://localhost:5000/auth/openid/return',
   allowHttpForRedirectUrl: true,
   clientSecret: AZURE_APP_KEY,
   passReqToCallback: false,
-  scope: [], // add email access here
-  useCookieInsteadOfSession: true,
-  cookieEncryptionKeys: [
-    { key: COOKIE_ENCRYPTION_KEY, iv: COOKIE_ENCRYPTION_IV }
-  ]
+  scope: [] // add email access here
+  // useCookieInsteadOfSession: true,
+  // cookieEncryptionKeys: [
+  //   { key: COOKIE_ENCRYPTION_KEY, iv: COOKIE_ENCRYPTION_IV }
+  // ]
 },
   function (iss, sub, profile, accessToken, refreshToken, done) {
     if (!profile.oid) {
@@ -33,7 +33,7 @@ Passport.use(new OIDCStrategy({
     console.log(profile)
     console.log(accessToken)
     console.log(refreshToken)
-    done(null, null)
+    done(null, profile.oid)
     // asynchronous verification, for effect...
     // process.nextTick(function () {
     //   findByOid(profile.oid, function (err, user) {
