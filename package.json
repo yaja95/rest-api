@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "dev": "set RUN=true && babel-node src/app.js",
+    "dev": "set RUN=true && nodemon --exec babel-node src/app.js",
     "build": "babel src -d dist",
     "serve": "set RUN=true && node --require babel-polyfill dist/app.js",
     "fmt": "standard --fix",
@@ -20,6 +20,8 @@
     "client-sessions": "^0.8.0",
     "dotenv-safe": "^4.0.4",
     "mysql2": "^1.4.2",
+    "passport": "^0.4.0",
+    "passport-azure-ad": "^3.0.8",
     "restify": "^6.0.1",
     "restify-errors": "^5.0.0",
     "sequelize": "^4.13.5",

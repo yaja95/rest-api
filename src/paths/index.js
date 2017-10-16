@@ -1,4 +1,5 @@
 import * as debug from './debug'
+import * as login from './login'
 
 /**
  * GET collection => Retrieve all resources in a collection
@@ -7,6 +8,7 @@ import * as debug from './debug'
  */
 export const gets = [
   ...debug.gets,
+  login.get,
   {
     path: '/',
     handler (req, res, next) {
@@ -20,6 +22,7 @@ export const gets = [
  * POST collection => Create a new resource in a collection
  */
 export const posts = [
+  login.post
 ]
 
 /**
