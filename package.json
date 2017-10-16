@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "dev": "set RUN=true && babel-node src/app.js",
+    "dev": "set RUN=true && nodemon --exec babel-node src/app.js",
     "build": "babel src -d dist",
     "serve": "set RUN=true && node --require babel-polyfill dist/app.js",
     "fmt": "standard --fix",

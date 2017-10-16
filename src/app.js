@@ -3,53 +3,10 @@ import '../scripts/env'
 
 import Restify from 'restify'
 import Sessions from 'client-sessions'
-import Passport from 'passport'
-import { OIDCStrategy } from 'passport-azure-ad'
+import Passport from './passport'
 import * as Database from './database'
 import * as Paths from './paths'
-import { SESSION_SECRET, AZURE_APP_ID, AZURE_APP_KEY, COOKIE_ENCRYPTION_KEY, COOKIE_ENCRYPTION_IV } from './secrets'
-
-Passport.use(new OIDCStrategy({
-  identityMetadata: 'https://login.microsoftonline.com/furman.onmicrosoft.com/.well-known/openid-configuration',
-  clientID: AZURE_APP_ID,
-  responseType: 'code',
-  responseMode: 'form_post',
-  redirectUrl: 'http://localhost:5000/auth/openid/return',
-  allowHttpForRedirectUrl: true,
-  clientSecret: AZURE_APP_KEY,
-  passReqToCallback: false,
-  scope: [] // add email access here
-  // useCookieInsteadOfSession: true,
-  // cookieEncryptionKeys: [
-  //   { key: COOKIE_ENCRYPTION_KEY, iv: COOKIE_ENCRYPTION_IV }
-  // ]
-},
-  function (iss, sub, profile, accessToken, refreshToken, done) {
-    if (!profile.oid) {
-      return done(new Error('No oid found'), null)
-    }
-    console.log(iss)
-    console.log(sub)
-    console.log(profile)
-    console.log(accessToken)
-    console.log(refreshToken)
-    done(null, profile.oid)
-    // asynchronous verification, for effect...
-    // process.nextTick(function () {
-    //   findByOid(profile.oid, function (err, user) {
-    //     if (err) {
-    //       return done(err)
-    //     }
-    //     if (!user) {
-    //       // "Auto-registration"
-    //       users.push(profile)
-    //       return done(null, profile)
-    //     }
-    //     return done(null, user)
-    //   })
-    // })
-  }
-))
+import { SESSION_SECRET } from './secrets'
 
 const server = Restify.createServer({
   name: ''
@@ -99,7 +56,23 @@ server.get('/auth/openid',
   }
 )
 
-// GET /auth/openid/return
+// POST /auth/openid/return
+//   Use Passport.authenticate() as route middleware to authenticate the
+//   request. If authentication fails, the user is redirected back to the
+//   sign-in page. Otherwise, the primary route function is called,
+//   which, in this example, redirects the user to the home page.
+server.post('/auth/openid/return',
+  function (req, res, next) {
+    console.log('posting to /auth/openid/return')
+    return Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' })(req, res, next)
+  },
+  function (req, res) {
+    console.log('We received a return from AzureAD.')
+    res.redirect('/')
+  }
+)
+
+// POST /auth/openid/return
 //   Use Passport.authenticate() as route middleware to authenticate the
 //   request. If authentication fails, the user is redirected back to the
 //   sign-in page. Otherwise, the primary route function is called,
