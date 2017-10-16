@@ -53,7 +53,7 @@ export async function start () {
   })
 }
 
-if (process.env.RUN) {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
   start()
     .then(url => console.log(`listening at ${url}`))
     .catch(err => {

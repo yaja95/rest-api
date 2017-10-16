@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "dev": "set RUN=true && nodemon --exec babel-node src/app.js",
+    "dev": "set NODE_ENV=development&& nodemon --exec babel-node src/app.js",
     "build": "babel src -d dist",
-    "serve": "set RUN=true && node --require babel-polyfill dist/app.js",
+    "serve": "set NODE_ENV=production&& node --require babel-polyfill dist/app.js",
     "fmt": "standard --fix",
     "test": "standard && mocha --require babel-register --require babel-polyfill"
   },

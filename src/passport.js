@@ -7,7 +7,9 @@ Passport.use(new OIDCStrategy({
   clientID: AZURE_APP_ID,
   responseType: 'code',
   responseMode: 'form_post',
-  redirectUrl: 'http://localhost:5000/login',
+  redirectUrl: process.env.NODE_ENV === 'production'
+    ? 'https://powerful-sands-17762.herokuapp.com/login/'
+    : 'http://localhost:5000/login',
   allowHttpForRedirectUrl: true,
   clientSecret: AZURE_APP_KEY,
   passReqToCallback: false,
