@@ -7,7 +7,7 @@ Passport.use(new OIDCStrategy({
   clientID: AZURE_APP_ID,
   responseType: 'code',
   responseMode: 'form_post',
-  redirectUrl: 'http://localhost:5000/auth/openid/return',
+  redirectUrl: 'http://localhost:5000/login',
   allowHttpForRedirectUrl: true,
   clientSecret: AZURE_APP_KEY,
   passReqToCallback: false,
@@ -35,4 +35,5 @@ Passport.use(new OIDCStrategy({
   }
 ))
 
+export const authenticate = Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' })
 export default Passport

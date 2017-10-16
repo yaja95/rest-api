@@ -42,49 +42,6 @@ Paths.puts.forEach(({ path, handler }) => server.put(path, handler))
 Paths.patches.forEach(({ path, handler }) => server.patch(path, handler))
 Paths.deletes.forEach(({ path, handler }) => server.del(path, handler))
 
-// GET /auth/openid
-//   Use Passport.authenticate() as route middleware to authenticate the
-//   request. The first step in OpenID authentication involves redirecting
-//   the user to their OpenID provider. After authenticating, the OpenID
-//   provider redirects the user back to this application at
-//   /auth/openid/return.
-server.get('/auth/openid',
-  Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
-  function (req, res) {
-    console.log('Authentication was called in the Sample')
-    res.redirect('/')
-  }
-)
-
-// POST /auth/openid/return
-//   Use Passport.authenticate() as route middleware to authenticate the
-//   request. If authentication fails, the user is redirected back to the
-//   sign-in page. Otherwise, the primary route function is called,
-//   which, in this example, redirects the user to the home page.
-server.post('/auth/openid/return',
-  function (req, res, next) {
-    console.log('posting to /auth/openid/return')
-    return Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' })(req, res, next)
-  },
-  function (req, res) {
-    console.log('We received a return from AzureAD.')
-    res.redirect('/')
-  }
-)
-
-// POST /auth/openid/return
-//   Use Passport.authenticate() as route middleware to authenticate the
-//   request. If authentication fails, the user is redirected back to the
-//   sign-in page. Otherwise, the primary route function is called,
-//   which, in this example, redirects the user to the home page.
-server.get('/auth/openid/return',
-  Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
-  function (req, res) {
-    console.log('We received a return from AzureAD.')
-    res.redirect('/')
-  }
-)
-
 export async function start () {
   try {
     await Database.init()

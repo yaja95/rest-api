@@ -22,6 +22,7 @@ export const gets = [
  * POST collection => Create a new resource in a collection
  */
 export const posts = [
+  login.post
 ]
 
 /**

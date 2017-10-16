@@ -4,5 +4,3 @@ export const AZURE_APP_ID = process.env.AZURE_APP_ID
 export const AZURE_OBJ_ID = process.env.AZURE_OBJ_ID
 export const AZURE_APP_URI = process.env.AZURE_APP_URI
 export const AZURE_APP_KEY = process.env.AZURE_APP_KEY
-export const COOKIE_ENCRYPTION_KEY = process.env.COOKIE_ENCRYPTION_KEY
-export const COOKIE_ENCRYPTION_IV = process.env.COOKIE_ENCRYPTION_IV
