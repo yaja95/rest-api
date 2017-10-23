@@ -12,7 +12,7 @@ Event
   description: TEXT
   time: DATE
 
-Tag -- split this for Event, BlogEntry, et cetera?
+EventTag
   name: STRING(32) (primary)
   description: TEXT
 
@@ -24,12 +24,16 @@ BlogEntry
   isApproved: BOOLEAN
   publishedAt: DATE NULLABLE
 
+BlogTag
+  name: String(32) (primary)
+  description: TEXT
+
 ===== Relations =====
 ~~~~~ http://docs.sequelizejs.com/manual/tutorial/associations.html ~~~~~
 
 -- Event
-Tag belongsToMany Event through EventTags
-Event belongsToMany Tag through EventTags
+EventTag belongsToMany Event through EventEventTags
+Event belongsToMany EventTag through EventEventTags
 
 -- BlogEntry
 BlogEntry belongsTo User as author
@@ -38,5 +42,5 @@ User hasMany BlogEntry as authoredBlogEntries
 BlogEntry belongsTo User as approver
 User hasMany BlogEntry as approvedBlogEntries
 
-Tag belongsToMany BlogEntry through BlogEntryTags
-BlogEntry belongsToMany Tag through BlogEntryTags
+BlogTag belongsToMany BlogEntry through BlogEntryTags
+BlogEntry belongsToMany BlogTag through BlogEntryTags
