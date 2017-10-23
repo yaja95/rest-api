@@ -38,6 +38,7 @@ ProjectTag
 
 Course
   isReal: BOOLEAN
+  description: TEXT
 
 ===== Relations =====
 ~~~~~ http://docs.sequelizejs.com/manual/tutorial/associations.html ~~~~~
