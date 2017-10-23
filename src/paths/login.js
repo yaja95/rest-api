@@ -7,7 +7,7 @@ export const get = {
       req.session.return = req.query.return || '/'
       next()
     },
-    authenticate,
+    authenticate(),
     (req, res, next) => {
       let ret = req.session.return || '/'
       req.session.return = undefined
@@ -18,10 +18,12 @@ export const get = {
 
 export const post = {
   path: '/login',
-  authenticate,
-  handler (req, res, next) {
-    let ret = req.session.return || '/'
-    req.session.return = undefined
-    res.redirect(ret, next)
-  }
+  handler: [
+    authenticate(),
+    (req, res, next) => {
+      let ret = req.session.return || '/'
+      req.session.return = undefined
+      res.redirect(ret, next)
+    }
+  ]
 }
