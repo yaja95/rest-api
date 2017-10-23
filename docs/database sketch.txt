@@ -23,9 +23,17 @@ BlogEntry
   isFinished: BOOLEAN
   isApproved: BOOLEAN
   publishedAt: DATE NULLABLE
-
 BlogTag
-  name: String(32) (primary)
+  name: STRING(32) (primary)
+  description: TEXT
+
+ProjectOpportunity
+  title: STRING(255)
+  description: TEXT
+  applyAt: STRING(2048)
+
+ProjectTag
+  name: STRING(32) (primary)
   description: TEXT
 
 ===== Relations =====
@@ -44,3 +52,7 @@ User hasMany BlogEntry as approvedBlogEntries
 
 BlogTag belongsToMany BlogEntry through BlogEntryTags
 BlogEntry belongsToMany BlogTag through BlogEntryTags
+
+-- ProjectOpportunity
+ProjectTag belongsToMany ProjectOpportunity through ProjectOpportunityTags
+ProjectOpportunity belongsToMany ProjectTag through ProjectOpportunityTags
