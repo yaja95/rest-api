@@ -36,6 +36,9 @@ ProjectTag
   name: STRING(32) (primary)
   description: TEXT
 
+Course
+  isReal: BOOLEAN
+
 ===== Relations =====
 ~~~~~ http://docs.sequelizejs.com/manual/tutorial/associations.html ~~~~~
 
@@ -56,3 +59,10 @@ BlogEntry belongsToMany BlogTag through BlogEntryTags
 -- ProjectOpportunity
 ProjectTag belongsToMany ProjectOpportunity through ProjectOpportunityTags
 ProjectOpportunity belongsToMany ProjectTag through ProjectOpportunityTags
+
+-- Course
+Course belongTo User as suggester
+User hasMany Course as suggestedCourses
+
+Course belongsToMany User through ApprovedCourses as approvedCourse
+User belongsToMany Course through ApprovedCourses as approver
