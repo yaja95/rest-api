@@ -1,0 +1,42 @@
+Data types are Sequelize types, unless prefixed with MySQL
+
+===== Tables =====
+
+User
+  OpenID: <TBD> (primary)
+  isFaculty: BOOLEAN
+  isAdmin: BOOLEAN
+
+Event
+  title: STRING(255)
+  description: TEXT
+  time: DATE
+
+Tag -- split this for Event, BlogEntry, et cetera?
+  name: STRING(32) (primary)
+  description: TEXT
+
+BlogEntry
+  contents: TEXT(long) -- CommonMark markdown
+  disclaimer: TEXT
+  hasDisclaimed: BOOLEAN
+  isFinished: BOOLEAN
+  isApproved: BOOLEAN
+  publishedAt: DATE NULLABLE
+
+===== Relations =====
+~~~~~ http://docs.sequelizejs.com/manual/tutorial/associations.html ~~~~~
+
+-- Event
+Tag belongsToMany Event through EventTags
+Event belongsToMany Tag through EventTags
+
+-- BlogEntry
+BlogEntry belongsTo User as author
+User hasMany BlogEntry as authoredBlogEntries
+
+BlogEntry belongsTo User as approver
+User hasMany BlogEntry as approvedBlogEntries
+
+Tag belongsToMany BlogEntry through BlogEntryTags
+BlogEntry belongsToMany Tag through BlogEntryTags
