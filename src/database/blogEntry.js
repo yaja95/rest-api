@@ -8,7 +8,7 @@ export default (sequelize, DataTypes) => sequelize.define('blogEntry', {
     allowNull: false
   },
   hasDisclaimed: {
-    type: DataTypes.TEXT,
+    type: DataTypes.BOOLEAN,
     allowNull: false
   },
   isFinished: {
