@@ -33,18 +33,6 @@ Mocha.describe('API', async function () {
 })
 
 Mocha.describe('Database UUID functions', function () {
-  Mocha.it('should mangle correctly', function () {
-    const before = Utils.uuid.fromString('6ccd780c-baba-1026-9564-0040f4311e29')
-    const after = Utils.uuid.fromString('1026-baba-6ccd780c-9564-0040f4311e29')
-    Assert.ok(Utils.uuid.mangle(before).equals(after), `${before} -> ${after}`)
-  })
-
-  Mocha.it('should demangle correctly', function () {
-    const before = Utils.uuid.fromString('1026-baba-6ccd780c-9564-0040f4311e29')
-    const after = Utils.uuid.fromString('6ccd780c-baba-1026-9564-0040f4311e29')
-    Assert.ok(Utils.uuid.demangle(before).equals(after), `${before} -> ${after}`)
-  })
-
   Mocha.it('should from/to string reflexively', function () {
     const uuid = '6ccd780c-baba-1026-9564-0040f4311e29'
     Assert.equal(uuid, Utils.uuid.toString(Utils.uuid.fromString(uuid)))
