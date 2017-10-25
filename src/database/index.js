@@ -15,8 +15,6 @@ export const Event = sequelize.import('./event')
 export const EventTag = sequelize.import('./eventTag')
 export const BlogEntry = sequelize.import('./blogEntry')
 
-Sequelize.DataTypes.TEXT
-
 EventTag.belongsToMany(Event, { through: 'EventEventTags' })
 Event.belongsToMany(EventTag, { through: 'EventEventTags' })
 
