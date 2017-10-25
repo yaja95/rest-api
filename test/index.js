@@ -34,7 +34,7 @@ Mocha.describe('API', async function () {
 
 Mocha.describe('Database UUID functions', function () {
   Mocha.it('should from/to string reflexively', function () {
-    const uuid = '6ccd780c-baba-1026-9564-0040f4311e29'
+    const uuid = '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
     Assert.equal(uuid, Utils.uuid.toString(Utils.uuid.fromString(uuid)))
   })
 })
