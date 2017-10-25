@@ -37,4 +37,12 @@ Mocha.describe('Database UUID functions', function () {
     const uuid = '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
     Assert.equal(uuid, Utils.uuid.toString(Utils.uuid.fromString(uuid)))
   })
+
+  Mocha.it('should preserve actual Azure OpenID UUID', function () {
+    const uuid = [
+      0x77, 0x37, 0x8A, 0x5C, 0x79, 0x28, 0x4B, 0xE4,
+      0x9A, 0xB3, 0xEB, 0x54, 0xCA, 0x8A, 0x44, 0xD7
+    ] // Christopher Durham-Student
+    Assert.deepEqual(uuid, Utils.uuid.fromString(Utils.uuid.toString(uuid)))
+  })
 })
