@@ -2,7 +2,6 @@ import * as App from '../src/app'
 import Assert from 'assert'
 import Clients from 'restify-clients'
 import Mocha from 'mocha'
-import Password from '../src/password'
 import { functions as Utils } from '../src/database/data'
 
 Mocha.before(async function () {
@@ -30,26 +29,6 @@ Mocha.describe('API', async function () {
       Assert.equal(200, res.statusCode)
       done()
     })
-  })
-})
-
-Mocha.describe('Password module', function () {
-  const expectedHashTime = 100
-  this.slow(expectedHashTime * 2)
-
-  Mocha.it('should round-trip passwords correctly', async function () {
-    const password = 'Correct Horse Battery Staple'
-    const hash = await Password.hash(password)
-    const theyMatch = await Password.verify(password, hash)
-    Assert.ok(theyMatch)
-  })
-
-  Mocha.it('does not truncate long passwords', async function () {
-    const password = 'Sed accumsan, eros nec tempor lacinia, odio lacus iaculis neque, id gravida leo dui sit amet nullam.'
-    const truncated = password.slice(0, 80)
-    const hash = await Password.hash(password)
-    const theyMatch = await Password.verify(truncated, hash)
-    Assert.ok(!theyMatch)
   })
 })
 
