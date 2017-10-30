@@ -38,6 +38,6 @@ Passport.use(new OIDCStrategy({
 ))
 
 export const authenticate = (obj) =>
-  Passport.authenticate('azuread-openidconnect', Object.assign({ failureRedirect: '/login' }, obj || {}))
+  Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' })
 
 export default Passport

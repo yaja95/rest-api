@@ -23,46 +23,42 @@ server.use([
   Restify.plugins.queryParser(),
   Restify.plugins.bodyParser({ rejectUnknown: true }),
   Restify.plugins.fullResponse(),
+  Sessions({
+    requestKey: 'session',
+    secret: SESSION_SECRET
+  }),
   Passport.initialize(),
-  Passport.session()
+  Passport.session(),
+  function cors (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    next()
+  }
 ])
 
-server.use(Sessions({
-  requestKey: 'session',
-  secret: SESSION_SECRET
-}))
-
-server.use(function cors (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  next()
-})
-
 function wrapInternalError (cb) {
-  if (cb instanceof Array) {
-    return cb.map(cb => async (req, res, next) => {
-      try {
-        await cb(req, res, next)
-      } catch (e) {
-        console.error(e)
-        res.send(new InternalServerError(e))
-        next()
-      }
-    })
-  } else {
+  function wrapThrowingEndpoint (cb) {
     return async (req, res, next) => {
       try {
-        await cb(req, res, next)
+        return await cb(req, res, next)
       } catch (e) {
         console.error(e)
-        res.send(new InternalServerError(e))
-        next()
+        res.send(new InternalServerError({
+          description: 'Something went wrong!',
+          error: e
+        }))
+        return next()
       }
     }
+  }
+  if (cb instanceof Array) {
+    return cb.map(wrapThrowingEndpoint)
+  } else {
+    return wrapThrowingEndpoint(cb)
   }
 }
 
 Paths.gets.forEach(({ path, handler }) => server.get(path, wrapInternalError(handler)))
-Paths.posts.forEach(({ path, handler }) => server.post(path, wrapInternalError(handler)))
+Paths.posts.forEach(({ path, handler }) => server.post(path, handler))
 Paths.puts.forEach(({ path, handler }) => server.put(path, wrapInternalError(handler)))
 Paths.patches.forEach(({ path, handler }) => server.patch(path, wrapInternalError(handler)))
 Paths.deletes.forEach(({ path, handler }) => server.del(path, wrapInternalError(handler)))
