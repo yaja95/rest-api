@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "dev": "set NODE_ENV=development&& nodemon --exec babel-node src/app.js",
+    "dev": "set NODE_ENV=development&& nodemon --exec babel-node src/app.js -- --trace-warnings",
     "build": "babel src -d dist",
     "serve": "set NODE_ENV=production&& node --require babel-polyfill dist/app.js",
     "fmt": "standard --fix",

@@ -7,6 +7,7 @@ import Passport from './passport'
 import * as Database from './database'
 import * as Paths from './paths'
 import { SESSION_SECRET } from './secrets'
+import { InternalServerError } from 'restify-errors'
 
 const server = Restify.createServer({
   name: ''
@@ -36,11 +37,35 @@ server.use(function cors (req, res, next) {
   next()
 })
 
-Paths.gets.forEach(({ path, handler }) => server.get(path, handler))
-Paths.posts.forEach(({ path, handler }) => server.post(path, handler))
-Paths.puts.forEach(({ path, handler }) => server.put(path, handler))
-Paths.patches.forEach(({ path, handler }) => server.patch(path, handler))
-Paths.deletes.forEach(({ path, handler }) => server.del(path, handler))
+function wrapInternalError (cb) {
+  if (cb instanceof Array) {
+    return cb.map(cb => async (req, res, next) => {
+      try {
+        await cb(req, res, next)
+      } catch (e) {
+        console.error(e)
+        res.send(new InternalServerError(e))
+        next()
+      }
+    })
+  } else {
+    return async (req, res, next) => {
+      try {
+        await cb(req, res, next)
+      } catch (e) {
+        console.error(e)
+        res.send(new InternalServerError(e))
+        next()
+      }
+    }
+  }
+}
+
+Paths.gets.forEach(({ path, handler }) => server.get(path, wrapInternalError(handler)))
+Paths.posts.forEach(({ path, handler }) => server.post(path, wrapInternalError(handler)))
+Paths.puts.forEach(({ path, handler }) => server.put(path, wrapInternalError(handler)))
+Paths.patches.forEach(({ path, handler }) => server.patch(path, wrapInternalError(handler)))
+Paths.deletes.forEach(({ path, handler }) => server.del(path, wrapInternalError(handler)))
 
 export async function start () {
   try {

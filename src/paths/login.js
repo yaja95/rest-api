@@ -11,6 +11,7 @@ export const get = {
     (req, res, next) => {
       let ret = req.session.return || '/'
       req.session.return = undefined
+      delete req.session.return
       res.redirect(ret, next)
     }
   ]
@@ -23,6 +24,7 @@ export const post = {
     (req, res, next) => {
       let ret = req.session.return || '/'
       req.session.return = undefined
+      delete req.session.return
       res.redirect(ret, next)
     }
   ]
