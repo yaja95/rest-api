@@ -1,5 +1,6 @@
 import * as debug from './debug'
 import * as login from './login'
+import * as users from './users'
 
 /**
  * GET collection => Retrieve all resources in a collection
@@ -9,6 +10,7 @@ import * as login from './login'
 export const gets = [
   ...debug.gets,
   login.get,
+  ...users.gets,
   {
     path: '/',
     handler (req, res, next) {

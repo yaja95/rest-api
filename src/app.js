@@ -7,6 +7,7 @@ import Passport from './passport'
 import * as Database from './database'
 import * as Paths from './paths'
 import { SESSION_SECRET } from './secrets'
+import { InternalServerError } from 'restify-errors'
 
 const server = Restify.createServer({
   name: ''
@@ -22,25 +23,45 @@ server.use([
   Restify.plugins.queryParser(),
   Restify.plugins.bodyParser({ rejectUnknown: true }),
   Restify.plugins.fullResponse(),
+  Sessions({
+    requestKey: 'session',
+    secret: SESSION_SECRET
+  }),
   Passport.initialize(),
-  Passport.session()
+  Passport.session(),
+  function cors (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    next()
+  }
 ])
 
-server.use(Sessions({
-  requestKey: 'session',
-  secret: SESSION_SECRET
-}))
+function wrapInternalError (cb) {
+  function wrapThrowingEndpoint (cb) {
+    return async (req, res, next) => {
+      try {
+        return await cb(req, res, next)
+      } catch (e) {
+        console.error(e)
+        res.send(new InternalServerError({
+          description: 'Something went wrong!',
+          error: e
+        }))
+        return next()
+      }
+    }
+  }
+  if (cb instanceof Array) {
+    return cb.map(wrapThrowingEndpoint)
+  } else {
+    return wrapThrowingEndpoint(cb)
+  }
+}
 
-server.use(function cors (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  next()
-})
-
-Paths.gets.forEach(({ path, handler }) => server.get(path, handler))
+Paths.gets.forEach(({ path, handler }) => server.get(path, wrapInternalError(handler)))
 Paths.posts.forEach(({ path, handler }) => server.post(path, handler))
-Paths.puts.forEach(({ path, handler }) => server.put(path, handler))
-Paths.patches.forEach(({ path, handler }) => server.patch(path, handler))
-Paths.deletes.forEach(({ path, handler }) => server.del(path, handler))
+Paths.puts.forEach(({ path, handler }) => server.put(path, wrapInternalError(handler)))
+Paths.patches.forEach(({ path, handler }) => server.patch(path, wrapInternalError(handler)))
+Paths.deletes.forEach(({ path, handler }) => server.del(path, wrapInternalError(handler)))
 
 export async function start () {
   try {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "dev": "set NODE_ENV=development&& nodemon --exec babel-node src/app.js",
+    "dev": "set NODE_ENV=development&& nodemon --exec babel-node src/app.js -- --trace-warnings",
     "build": "babel src -d dist",
     "serve": "set NODE_ENV=production&& node --require babel-polyfill dist/app.js",
     "fmt": "standard --fix",
@@ -21,15 +21,15 @@
     "mysql2": "^1.4.2",
     "passport": "^0.4.0",
     "passport-azure-ad": "^3.0.8",
-    "restify": "^6.2.3",
+    "restify": "^6.3.1",
     "restify-errors": "^5.0.0",
-    "sequelize": "^4.17.2",
+    "sequelize": "^4.22.5",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.1",
     "babel-register": "^6.26.0",
-    "eslint": "^4.9.0",
+    "eslint": "^4.10.0",
     "mocha": "^4.0.1",
     "nodemon": "^1.12.1",
     "read": "^1.0.7",
