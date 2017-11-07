@@ -14,8 +14,8 @@ const server = Restify.createServer({
 })
 
 server.pre([
-  Restify.plugins.pre.userAgentConnection(),
-  Restify.plugins.pre.sanitizePath()
+  Restify.plugins.pre.userAgentConnection()
+  // Restify.plugins.pre.sanitizePath()
 ])
 
 server.use([
@@ -25,12 +25,18 @@ server.use([
   Restify.plugins.fullResponse(),
   Sessions({
     requestKey: 'session',
-    secret: SESSION_SECRET
+    secret: SESSION_SECRET,
+    cookie: {
+      domain: process.env.NODE_ENV === 'development'
+        ? 'localhost'
+        : 'cs.furman.edu',
+      httpOnly: false
+    }
   }),
   Passport.initialize(),
   Passport.session(),
   function cors (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080')
     next()
   }
 ])
@@ -58,7 +64,7 @@ function wrapInternalError (cb) {
 }
 
 Paths.gets.forEach(({ path, handler }) => server.get(path, wrapInternalError(handler)))
-Paths.posts.forEach(({ path, handler }) => server.post(path, handler))
+Paths.posts.forEach(({ path, handler }) => server.post(path, wrapInternalError(handler)))
 Paths.puts.forEach(({ path, handler }) => server.put(path, wrapInternalError(handler)))
 Paths.patches.forEach(({ path, handler }) => server.patch(path, wrapInternalError(handler)))
 Paths.deletes.forEach(({ path, handler }) => server.del(path, wrapInternalError(handler)))
