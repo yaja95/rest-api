@@ -1,7 +1,6 @@
 import * as Database from '../database'
 import { functions } from '../database/data'
 import { NotFoundError } from 'restify-errors'
-import { authenticate } from '../passport'
 
 async function users (req, res, next) {
   if (req.query.faculty !== undefined) {
@@ -38,10 +37,7 @@ export const gets = [
   },
   {
     path: '/users/me',
-    handler: [
-      authenticate(),
-      userMe
-    ]
+    handler: userMe
   },
   {
     path: '/users/:oid',

@@ -9,7 +9,7 @@ import * as users from './users'
  */
 export const gets = [
   ...debug.gets,
-  login.get,
+  ...login.gets,
   ...users.gets,
   {
     path: '/',

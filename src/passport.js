@@ -10,34 +10,39 @@ Passport.use(new OIDCStrategy({
   responseType: 'code',
   responseMode: 'form_post',
   redirectUrl: process.env.NODE_ENV === 'production'
-    ? 'https://powerful-sands-17762.herokuapp.com/login/'
-    : 'http://localhost:5000/login',
+    ? 'https://powerful-sands-17762.herokuapp.com/login/azure/return'
+    : 'http://localhost:5000/login/azure/return',
   allowHttpForRedirectUrl: true,
   clientSecret: AZURE_APP_KEY,
   passReqToCallback: false,
   scope: [] // add email access here
 },
-  function (iss, sub, profile, accessToken, refreshToken, done) {
+  async function (profile, done) {
     if (!profile.oid) {
-      return done(new Error('No oid found'), null)
+      done(new Error('No oid found'), null)
     }
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      User.findOrCreate({
-        // HACK FIXME
-        where: { oid: functions.uuid.fromString(profile.oid) },
-        defaults: {
-          oid: profile.oid,
-          displayName: profile.displayName
-        }
-      }).then((user) => {
-        return done(null, user)
-      })
+    const [ user ] = await User.findOrCreate({
+      // HACK FIXME
+      where: { oid: functions.uuid.fromString(profile.oid) },
+      defaults: {
+        oid: profile.oid,
+        displayName: profile.displayName
+      }
     })
+    return done(null, user.get())
   }
 ))
 
-export const authenticate = (obj) =>
-  Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' })
+Passport.serializeUser((user, done) => done(null, user.oid))
+Passport.deserializeUser(async (oid, done) => {
+  const user = await User.findById(functions.uuid.fromString(oid))
+  if (user) {
+    return done(null, user.get())
+  } else {
+    return done(new Error('User deserialization failed', null))
+  }
+})
+
+export const authenticate = () => Passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' })
 
 export default Passport
