@@ -38,10 +38,7 @@ export const gets = [
   },
   {
     path: '/users/me',
-    handler: [
-      authenticate(),
-      userMe
-    ]
+    handler: userMe
   },
   {
     path: '/users/:oid',
