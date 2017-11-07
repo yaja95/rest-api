@@ -25,8 +25,7 @@ async function userOID (req, res, next) {
 }
 
 async function userMe (req, res, next) {
-  console.log(req.user)
-  res.send(req.user)
+  res.send(req.user || null)
   next()
 }
 
