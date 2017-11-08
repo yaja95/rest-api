@@ -21,8 +21,12 @@ export const gets = [
     path: '/logout',
     handler (req, res, next) {
       req.logout()
-      res.send({})
-      next()
+      if (req.query.return) {
+        res.redirect(req.query.return, next)
+      } else {
+        res.send({})
+        next()
+      }
     }
   }
 ]
