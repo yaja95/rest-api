@@ -19,9 +19,10 @@
     "client-sessions": "^0.8.0",
     "dotenv-safe": "^4.0.4",
     "mysql2": "^1.4.2",
-    "passport": "^0.4.0",
+    "passport": "cad97/passport-restify",
     "passport-azure-ad": "^3.0.8",
     "restify": "^6.3.1",
+    "restify-cors-middleware": "^1.0.1",
     "restify-errors": "^5.0.0",
     "sequelize": "^4.22.5",
     "uuid": "^3.1.0"

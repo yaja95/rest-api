@@ -3,6 +3,7 @@ import '../scripts/env'
 
 import Restify from 'restify'
 import Sessions from 'client-sessions'
+import CORS from 'restify-cors-middleware'
 import Passport from './passport'
 import * as Database from './database'
 import * as Paths from './paths'
@@ -13,9 +14,16 @@ const server = Restify.createServer({
   name: ''
 })
 
+const cors = CORS({
+  origins: process.env.NODE_ENV === 'development'
+    ? ['http://localhost:5000', 'http://localhost:8080']
+    : ['http://cs.furman.edu', 'https://powerful-sands-17762.herokuapp.com/'],
+  credentials: true
+})
+
 server.pre([
-  Restify.plugins.pre.userAgentConnection()
-  // Restify.plugins.pre.sanitizePath()
+  Restify.plugins.pre.userAgentConnection(),
+  cors.preflight
 ])
 
 server.use([
@@ -23,22 +31,13 @@ server.use([
   Restify.plugins.queryParser(),
   Restify.plugins.bodyParser({ rejectUnknown: true }),
   Restify.plugins.fullResponse(),
+  cors.actual,
   Sessions({
     requestKey: 'session',
-    secret: SESSION_SECRET,
-    cookie: {
-      domain: process.env.NODE_ENV === 'development'
-        ? 'localhost'
-        : 'cs.furman.edu',
-      httpOnly: false
-    }
+    secret: SESSION_SECRET
   }),
   Passport.initialize(),
-  Passport.session(),
-  function cors (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080')
-    next()
-  }
+  Passport.session()
 ])
 
 function wrapInternalError (cb) {
