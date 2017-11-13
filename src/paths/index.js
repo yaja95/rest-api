@@ -1,8 +1,9 @@
+import * as blog from './blog'
+import * as courses from './courses'
 import * as debug from './debug'
+import * as events from './events'
 import * as login from './login'
 import * as users from './users'
-import * as events from './events'
-import * as blog from './blog'
 
 /**
  * GET collection => Retrieve all resources in a collection
@@ -11,9 +12,10 @@ import * as blog from './blog'
  */
 export const gets = [
   ...blog.gets,
+  ...courses.gets,
   ...debug.gets,
-  ...login.gets,
   ...events.gets,
+  ...login.gets,
   ...users.gets,
   {
     path: '/',

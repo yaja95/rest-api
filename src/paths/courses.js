@@ -17,11 +17,11 @@ async function coursesByID (req, res, next) {
 }
 
 async function courses (req, res, next) {
-  if (req.query.onlyReal !== undefined) {
-    const isReal = req.query.onlyReal && req.query.onlyReal !== 'false'
-    res.send(await Database.User.findAll({ where: { isReal } }))
+  if (req.query.real !== undefined) {
+    const isReal = req.query.real !== 'false'
+    res.send(await Database.Course.findAll({ where: { isReal } }))
   } else {
-    res.send(await Database.User.all())
+    res.send(await Database.Course.all())
   }
   next()
 }
