@@ -1,4 +1,7 @@
+import * as blog from './blog'
+import * as courses from './courses'
 import * as debug from './debug'
+import * as events from './events'
 import * as login from './login'
 import * as users from './users'
 
@@ -8,7 +11,10 @@ import * as users from './users'
  * GET resource => Retrieve a single resource
  */
 export const gets = [
+  ...blog.gets,
+  ...courses.gets,
   ...debug.gets,
+  ...events.gets,
   ...login.gets,
   ...users.gets,
   {
