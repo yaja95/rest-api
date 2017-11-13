@@ -5,7 +5,7 @@ import { NotFoundError, InvalidArgumentError } from 'restify-errors'
 async function blogByID (req, res, next) {
   const id = parseInt(req.params.id)
   if (id) {
-    const blog = await Database.Blog.findById(id)
+    const blog = await Database.BlogEntry.findById(id)
     if (blog) {
       res.send(blog)
     } else {
@@ -29,7 +29,7 @@ async function authorOID (req, res, next) {
   const oid = functions.uuid.fromString(req.params.oid)
   const author = await Database.User.findById(oid)
   if (author) {
-    res.send(author.authoredBlogEntries)
+    res.send(await author.getAuthoredBlogEntries())
   } else {
     res.send(new NotFoundError('Author OID not found'))
   }
@@ -59,10 +59,6 @@ async function blogTagsByID (req, res, next) {
 
 export const gets = [
   {
-    path: '/blog/:id',
-    handler: blogByID
-  },
-  {
     path: '/blog/drafts',
     handler: drafts
   },
@@ -71,11 +67,15 @@ export const gets = [
     handler: authorOID
   },
   {
-    path: '/blog/blogTags',
+    path: '/blog/tags',
     handler: blogTags
   },
   {
-    path: '/blog/blogTagsByID',
+    path: '/blog/tags/:id',
     handler: blogTagsByID
+  },
+  {
+    path: '/blog/:id',
+    handler: blogByID
   }
 ]

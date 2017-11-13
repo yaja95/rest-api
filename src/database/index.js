@@ -37,8 +37,8 @@ ProjectTag.belongsToMany(ProjectOpportunity, { through: 'projectOpportunities/pr
 Course.belongsTo(User, { as: 'suggester' })
 User.hasMany(Course, { as: 'suggestedCourses', foreignKey: 'suggesterOid' })
 
-Course.belongsToMany(User, { through: 'courseApprovers', as: 'approvedCourse' })
-User.belongsToMany(Course, { through: 'courseApprovers', as: 'approver' })
+Course.belongsToMany(User, { through: 'courseApprovers', as: 'approver' })
+User.belongsToMany(Course, { through: 'courseApprovers', as: 'approvedCourse' })
 
 export async function init () {
   try {
