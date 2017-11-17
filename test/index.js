@@ -2,7 +2,7 @@ import * as App from '../src/app'
 import Assert from 'assert'
 import Clients from 'restify-clients'
 import Mocha from 'mocha'
-import { functions as Utils } from '../src/database/data'
+import UUID from '../src/types/UUID'
 
 Mocha.before(async function () {
   this.timeout(0)
@@ -32,10 +32,10 @@ Mocha.describe('API', async function () {
   })
 })
 
-Mocha.describe('Database UUID functions', function () {
+Mocha.describe('UUID type', function () {
   Mocha.it('should from/to string reflexively', function () {
     const uuid = '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
-    Assert.equal(uuid, Utils.uuid.toString(Utils.uuid.fromString(uuid)))
+    Assert.equal(uuid, new UUID(uuid).toString())
   })
 
   Mocha.it('should preserve actual Azure OpenID UUID', function () {
@@ -43,6 +43,6 @@ Mocha.describe('Database UUID functions', function () {
       0x77, 0x37, 0x8A, 0x5C, 0x79, 0x28, 0x4B, 0xE4,
       0x9A, 0xB3, 0xEB, 0x54, 0xCA, 0x8A, 0x44, 0xD7
     ] // Christopher Durham-Student
-    Assert.deepEqual(uuid, Utils.uuid.fromString(Utils.uuid.toString(uuid)))
+    Assert.deepEqual(uuid, new UUID(new UUID(uuid).toString()).buffer)
   })
 })

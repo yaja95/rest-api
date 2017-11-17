@@ -1,6 +1,6 @@
 import * as Database from '../database'
-import { functions } from '../database/data'
 import { NotFoundError, InvalidArgumentError } from 'restify-errors'
+import UUID from '../types/UUID'
 
 async function blogByID (req, res, next) {
   const id = parseInt(req.params.id)
@@ -26,7 +26,7 @@ async function drafts (req, res, next) {
 }
 
 async function authorOID (req, res, next) {
-  const oid = functions.uuid.fromString(req.params.oid)
+  const oid = new UUID(req.params.oid)
   const author = await Database.User.findById(oid)
   if (author) {
     res.send(await author.getAuthoredBlogEntries())

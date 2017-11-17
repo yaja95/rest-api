@@ -2,7 +2,7 @@ import Passport from 'passport'
 import { OIDCStrategy } from 'passport-azure-ad'
 import { AZURE_APP_ID, AZURE_APP_KEY } from './secrets'
 import { User } from './database'
-import { functions } from './database/data'
+import UUID from './types/UUID'
 
 Passport.use(new OIDCStrategy({
   identityMetadata: 'https://login.microsoftonline.com/furman.onmicrosoft.com/.well-known/openid-configuration',
@@ -23,7 +23,7 @@ Passport.use(new OIDCStrategy({
     }
     const [ user ] = await User.findOrCreate({
       // HACK FIXME
-      where: { oid: functions.uuid.fromString(profile.oid) },
+      where: { oid: new UUID(profile.oid) },
       defaults: {
         oid: profile.oid,
         displayName: profile.displayName
@@ -33,9 +33,11 @@ Passport.use(new OIDCStrategy({
   }
 ))
 
-Passport.serializeUser((user, done) => done(null, user.oid))
+Passport.serializeUser((user, done) => done(null, user.oid.toString()))
 Passport.deserializeUser(async (oid, done) => {
-  const user = await User.findById(functions.uuid.fromString(oid))
+  if (!oid) return done(null, null)
+  console.log(oid)
+  const user = await User.findById(new UUID(oid))
   if (user) {
     return done(null, user.get())
   } else {

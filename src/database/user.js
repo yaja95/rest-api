@@ -1,17 +1,7 @@
-import Data from './data'
+import * as UUID from '../types/UUID'
 
 export default (sequelize, DataTypes) => sequelize.define('user', {
-  oid: {
-    type: Data.types.UUID,
-    allowNull: false,
-    set (value) {
-      this.setDataValue('oid', Data.functions.uuid.fromString(value))
-    },
-    get () {
-      return Data.functions.uuid.toString(this.getDataValue('oid'))
-    },
-    primaryKey: true
-  },
+  oid: UUID,
   displayName: {
     type: DataTypes.STRING,
     allowNull: false

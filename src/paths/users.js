@@ -1,5 +1,5 @@
 import * as Database from '../database'
-import { functions } from '../database/data'
+import UUID from '../types/UUID'
 import { NotFoundError } from 'restify-errors'
 
 async function users (req, res, next) {
@@ -14,7 +14,7 @@ async function users (req, res, next) {
 
 async function userOID (req, res, next) {
   // HACK don't dig around in database internals
-  const oid = functions.uuid.fromString(req.params.oid)
+  const oid = new UUID(req.params.oid)
   const user = await Database.User.findById(oid)
   if (user) {
     res.send(user)
