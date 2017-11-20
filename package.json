@@ -8,7 +8,7 @@
     "build": "babel src -d dist",
     "serve": "set NODE_ENV=production&& node --require babel-polyfill dist/app.js",
     "fmt": "standard --fix",
-    "test": "standard && mocha --require babel-register --require babel-polyfill"
+    "test": "mocha --require babel-register --require babel-polyfill"
   },
   "author": "",
   "license": "UNLICENSED",
