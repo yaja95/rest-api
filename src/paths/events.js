@@ -42,7 +42,17 @@ async function events (req, res, next) {
   next()
 }
 
+async function putEvents (req, res, next) {
+  const created = await Database.Event.create(req.body)
+  res.send(created)
+  next()
+}
+
 export const gets = [
+  {
+    path: '/events/:id',
+    handler: eventByID
+  },
   {
     path: '/events',
     handler: events
@@ -52,11 +62,14 @@ export const gets = [
     handler: tags
   },
   {
-    path: '/events/tags/:id',
+    path: '/events/eventTagsByID',
     handler: eventTagsByID
-  },
+  }
+]
+
+export const puts = [
   {
-    path: '/events/:id',
-    handler: eventByID
+    path: 'events/putEvents',
+    handler: putEvents
   }
 ]

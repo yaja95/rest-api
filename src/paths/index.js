@@ -37,6 +37,10 @@ export const posts = [
  * PUT resource => Update a resource (replace)
  */
 export const puts = [
+  ...events.puts,
+  ...blog.puts,
+  ...courses.puts,
+  ...users.puts
 ]
 
 /**

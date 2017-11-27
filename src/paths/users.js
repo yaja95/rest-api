@@ -29,6 +29,12 @@ async function userMe (req, res, next) {
   next()
 }
 
+async function putUsers (req, res, next) {
+  const created = await Database.Users.create(req.body)
+  res.send(created)
+  next()
+}
+
 export const gets = [
   {
     path: '/users',
@@ -41,5 +47,12 @@ export const gets = [
   {
     path: '/users/:oid',
     handler: userOID
+  }
+]
+
+export const puts = [
+  {
+    path: 'users/putUsers',
+    handler: putUsers
   }
 ]

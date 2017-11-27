@@ -57,6 +57,12 @@ async function blogTagsByID (req, res, next) {
   next()
 }
 
+async function putBlog (req, res, next) {
+  const created = await Database.Blog.create(req.body)
+  res.send(created)
+  next()
+}
+
 export const gets = [
   {
     path: '/blog/drafts',
@@ -77,5 +83,12 @@ export const gets = [
   {
     path: '/blog/:id',
     handler: blogByID
+  }
+]
+
+export const puts = [
+  {
+    path: 'blog/putBlog',
+    handler: putBlog
   }
 ]
