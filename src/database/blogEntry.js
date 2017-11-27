@@ -9,15 +9,18 @@ export default (sequelize, DataTypes) => sequelize.define('blogEntry', {
   },
   hasDisclaimed: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: false,
+    defaultValue: false
   },
   isFinished: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: false,
+    defaultValue: false
   },
   isApproved: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: false,
+    defaultValue: false
   },
   publishedAt: {
     type: DataTypes.DATE,

@@ -50,6 +50,10 @@ async function putEvents (req, res, next) {
 
 export const gets = [
   {
+    path: '/events/tags',
+    handler: tags
+  },
+  {
     path: '/events/:id',
     handler: eventByID
   },
@@ -58,18 +62,14 @@ export const gets = [
     handler: events
   },
   {
-    path: '/events/tags',
-    handler: tags
-  },
-  {
-    path: '/events/eventTagsByID',
+    path: '/events/tags/:id',
     handler: eventTagsByID
   }
 ]
 
 export const puts = [
   {
-    path: 'events/putEvents',
+    path: 'events',
     handler: putEvents
   }
 ]
