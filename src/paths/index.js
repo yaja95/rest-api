@@ -39,8 +39,7 @@ export const posts = [
 export const puts = [
   ...events.puts,
   ...blog.puts,
-  ...courses.puts,
-  ...users.puts
+  ...courses.puts
 ]
 
 /**

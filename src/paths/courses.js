@@ -27,7 +27,7 @@ async function courses (req, res, next) {
 }
 
 async function putCourses (req, res, next) {
-  const created = await Database.Courses.create(req.body)
+  const created = await Database.Course.create(req.body)
   res.send(created)
   next()
 }
@@ -61,7 +61,7 @@ export const gets = [
 
 export const puts = [
   {
-    path: 'courses/putCourses',
+    path: '/courses',
     handler: putCourses
   },
   {
