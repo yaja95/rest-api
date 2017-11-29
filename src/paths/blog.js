@@ -2,6 +2,12 @@ import * as Database from '../database'
 import { functions } from '../database/data'
 import { NotFoundError, InvalidArgumentError } from 'restify-errors'
 
+async function allBlogs (req, res, next) {
+  const blogs = await Database.BlogEntry.all()
+  res.send(blogs)
+  next()
+}
+
 async function blogByID (req, res, next) {
   const id = parseInt(req.params.id)
   if (id) {
@@ -57,7 +63,17 @@ async function blogTagsByID (req, res, next) {
   next()
 }
 
+async function putBlog (req, res, next) {
+  const created = await Database.BlogEntry.create(req.body)
+  res.send(created)
+  next()
+}
+
 export const gets = [
+  {
+    path: '/blog',
+    handler: allBlogs
+  },
   {
     path: '/blog/drafts',
     handler: drafts
@@ -77,5 +93,12 @@ export const gets = [
   {
     path: '/blog/:id',
     handler: blogByID
+  }
+]
+
+export const puts = [
+  {
+    path: '/blog',
+    handler: putBlog
   }
 ]
