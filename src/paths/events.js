@@ -16,6 +16,22 @@ async function eventByID (req, res, next) {
   next()
 }
 
+async function updateEvents (req, res, next) {
+  const id = parseInt(req.params.id)
+  if (id) {
+    const event = await Database.Event.findById(id)
+    if (event) {
+      await event.update(req.body)
+      res.send(event)
+    } else {
+      res.send(new NotFoundError('Event not found'))
+    }
+  } else {
+    res.send(new InvalidArgumentError('Event id must be an int'))
+  }
+  next()
+}
+
 async function tags (req, res, next) {
   const tags = await Database.EventTag.all()
   res.send(tags)
@@ -71,5 +87,9 @@ export const puts = [
   {
     path: 'events',
     handler: putEvents
+  },
+  {
+    path: 'events/:id',
+    handler: updateEvents
   }
 ]

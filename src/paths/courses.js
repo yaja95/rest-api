@@ -32,6 +32,22 @@ async function putCourses (req, res, next) {
   next()
 }
 
+async function updateCourses (req, res, next) {
+  const id = parseInt(req.params.id)
+  if (id) {
+    const course = await Database.Course.findById(id)
+    if (course) {
+      await course.update(req.body)
+      res.send(course)
+    } else {
+      res.send(new NotFoundError('Course not found'))
+    }
+  } else {
+    res.send(new InvalidArgumentError('Course id must be an int'))
+  }
+  next()
+}
+
 export const gets = [
   {
     path: '/courses/:id',
@@ -47,5 +63,9 @@ export const puts = [
   {
     path: '/courses',
     handler: putCourses
+  },
+  {
+    path: 'courses/:id',
+    handler: updateCourses
   }
 ]

@@ -69,6 +69,22 @@ async function putBlog (req, res, next) {
   next()
 }
 
+async function updateBlog (req, res, next) {
+  const id = parseInt(req.params.id)
+  if (id) {
+    const blog = await Database.BlogEntry.findById(id)
+    if (blog) {
+      await blog.update(req.body)
+      res.send(blog)
+    } else {
+      res.send(new NotFoundError('Blog not found'))
+    }
+  } else {
+    res.send(new InvalidArgumentError('Blog id must be an int'))
+  }
+  next()
+}
+
 export const gets = [
   {
     path: '/blog',
@@ -100,5 +116,9 @@ export const puts = [
   {
     path: '/blog',
     handler: putBlog
+  },
+  {
+    path: '/blog/:id',
+    handler: updateBlog
   }
 ]
