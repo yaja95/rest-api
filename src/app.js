@@ -31,6 +31,7 @@ server.use([
   Restify.plugins.queryParser(),
   Restify.plugins.bodyParser({ rejectUnknown: true }),
   Restify.plugins.fullResponse(),
+  // Restify.plugins.multipartBodyParser(),
   cors.actual,
   Sessions({
     requestKey: 'session',

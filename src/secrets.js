@@ -4,3 +4,4 @@ export const AZURE_APP_ID = process.env.AZURE_APP_ID
 export const AZURE_OBJ_ID = process.env.AZURE_OBJ_ID
 export const AZURE_APP_URI = process.env.AZURE_APP_URI
 export const AZURE_APP_KEY = process.env.AZURE_APP_KEY
+export const SFTP_PASSWORD = process.env.SFTP_PASSWORD
