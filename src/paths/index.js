@@ -4,6 +4,7 @@ import * as debug from './debug'
 import * as events from './events'
 import * as login from './login'
 import * as users from './users'
+import * as fileUpload from './file_upload'
 
 /**
  * GET collection => Retrieve all resources in a collection
@@ -30,7 +31,8 @@ export const gets = [
  * POST collection => Create a new resource in a collection
  */
 export const posts = [
-  login.post
+  login.post,
+  fileUpload.post
 ]
 
 /**
