@@ -36,10 +36,10 @@ async function updateAward (req, res, next) {
       await award.update(req.body)
       res.send(award)
     } else {
-      res.send(new NotFoundError('Blog not found'))
+      res.send(new NotFoundError('Award not found'))
     }
   } else {
-    res.send(new InvalidArgumentError('Blog id must be an int'))
+    res.send(new InvalidArgumentError('Award id must be an int'))
   }
   next()
 }
