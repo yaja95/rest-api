@@ -1,5 +1,5 @@
 import * as Database from '../database'
-import { NotFoundError, InvalidArgumentError } from 'restify-errors'
+import { NotFoundError, InvalidArgumentError, MissingParameterError } from 'restify-errors'
 
 async function getExperiences (req, res, next) {
   const experiences = await Database.Experience.all()
@@ -22,8 +22,16 @@ async function getExperienceById (req, res, next) {
   next()
 }
 
+const requiredFields = [ 'company', 'dateStart', 'description' ]
+const experienceFields = [ 'company', 'dateStart', 'dateEnd', 'description', 'image' ]
+
 async function addExperience (req, res, next) {
-  const created = await Database.Experience.create(req.body)
+  for (const field in requiredFields) {
+    if (!req.body.hasOwnProperty) {
+      res.send(new MissingParameterError(field))
+    }
+  }
+  const created = await Database.Experience.create(req.body, { fields: experienceFields })
   res.send(created)
   next()
 }
@@ -33,7 +41,7 @@ async function updateExperience (req, res, next) {
   if (id) {
     const experience = await Database.Experience.findById(id)
     if (experience) {
-      await experience.update(req.body)
+      await experience.update(req.body, { fields: experienceFields })
       res.send(experience)
     } else {
       res.send(new NotFoundError('Experience not found'))

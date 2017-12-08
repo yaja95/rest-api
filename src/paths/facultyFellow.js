@@ -1,5 +1,5 @@
 import * as Database from '../database'
-import { NotFoundError, InvalidArgumentError } from 'restify-errors'
+import { NotFoundError, InvalidArgumentError, MissingParameterError } from 'restify-errors'
 
 async function getFellows (req, res, next) {
   const fellows = await Database.FacutlyFellow.all()
@@ -22,10 +22,15 @@ async function getFellowById (req, res, next) {
   next()
 }
 
+const fellowFields = [ 'name', 'email', 'department', 'application' ]
+
 async function addFellow (req, res, next) {
-  const created = await Database.FacutlyFellow.create(req.body)
-  console.log(created)
-  console.log('XXXXXXX')
+  for (const field in fellowFields) {
+    if (!req.body.hasOwnProperty) {
+      res.send(new MissingParameterError(field, { field: fellowFields }))
+    }
+  }
+  const created = await Database.FacutlyFellow.create(req.body, { field: fellowFields })
   res.send(created)
   next()
 }
@@ -35,7 +40,7 @@ async function updateFellow (req, res, next) {
   if (id) {
     const fellow = await Database.FacutlyFellow.findById(id)
     if (fellow) {
-      await fellow.update(req.body)
+      await fellow.update(req.body, { field: fellowFields })
       res.send(fellow)
     } else {
       res.send(new NotFoundError('Fellow not found'))

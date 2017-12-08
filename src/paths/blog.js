@@ -1,6 +1,6 @@
 import * as Database from '../database'
 import { functions } from '../database/data'
-import { NotFoundError, InvalidArgumentError } from 'restify-errors'
+import { NotFoundError, InvalidArgumentError, MissingParameterError } from 'restify-errors'
 
 async function allBlogs (req, res, next) {
   const blogs = await Database.BlogEntry.all()
@@ -63,8 +63,16 @@ async function blogTagsByID (req, res, next) {
   next()
 }
 
+const requiredFields = [ 'contents', 'title' ]
+const blogFields = [ 'contents', 'title', 'publishedAt' ]
+
 async function putBlog (req, res, next) {
-  const created = await Database.BlogEntry.create(req.body)
+  for (const field in requiredFields) {
+    if (!req.body.hasOwnProperty) {
+      res.send(new MissingParameterError(field))
+    }
+  }
+  const created = await Database.BlogEntry.create(req.body, { fields: blogFields })
   res.send(created)
   next()
 }
@@ -74,7 +82,7 @@ async function updateBlog (req, res, next) {
   if (id) {
     const blog = await Database.BlogEntry.findById(id)
     if (blog) {
-      await blog.update(req.body)
+      await blog.update(req.body, { fields: blogFields })
       res.send(blog)
     } else {
       res.send(new NotFoundError('Blog not found'))

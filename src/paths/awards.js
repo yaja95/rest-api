@@ -1,5 +1,5 @@
 import * as Database from '../database'
-import { NotFoundError, InvalidArgumentError } from 'restify-errors'
+import { NotFoundError, InvalidArgumentError, MissingParameterError } from 'restify-errors'
 
 async function getAwards (req, res, next) {
   const awards = await Database.Award.all()
@@ -22,8 +22,15 @@ async function getAwardById (req, res, next) {
   next()
 }
 
+const awardFields = [ 'name', 'date', 'winner' ]
+
 async function addAward (req, res, next) {
-  const created = await Database.Award.create(req.body)
+  for (const field in awardFields) {
+    if (!req.body.hasOwnProperty) {
+      res.send(new MissingParameterError(field))
+    }
+  }
+  const created = await Database.Award.create(req.body, { fields: awardFields })
   res.send(created)
   next()
 }
@@ -33,7 +40,7 @@ async function updateAward (req, res, next) {
   if (id) {
     const award = await Database.Award.findById(id)
     if (award) {
-      await award.update(req.body)
+      await award.update(req.body, { fields: awardFields })
       res.send(award)
     } else {
       res.send(new NotFoundError('Award not found'))

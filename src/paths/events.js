@@ -1,5 +1,5 @@
 import * as Database from '../database'
-import { NotFoundError, InvalidArgumentError } from 'restify-errors'
+import { NotFoundError, InvalidArgumentError, MissingParameterError } from 'restify-errors'
 
 async function eventByID (req, res, next) {
   const id = parseInt(req.params.id)
@@ -21,7 +21,7 @@ async function updateEvents (req, res, next) {
   if (id) {
     const event = await Database.Event.findById(id)
     if (event) {
-      await event.update(req.body)
+      await event.update(req.body, eventFields)
       res.send(event)
     } else {
       res.send(new NotFoundError('Event not found'))
@@ -58,8 +58,15 @@ async function events (req, res, next) {
   next()
 }
 
+const eventFields = [ 'title', 'description', 'time' ]
+
 async function putEvents (req, res, next) {
-  const created = await Database.Event.create(req.body)
+  for (const field in eventFields) {
+    if (!req.body.hasOwnProperty) {
+      res.send(new MissingParameterError(field))
+    }
+  }
+  const created = await Database.Event.create(req.body, eventFields)
   res.send(created)
   next()
 }
