@@ -3,27 +3,12 @@ export default (sequelize, DataTypes) => sequelize.define('blogEntry', {
     type: DataTypes.TEXT('long'),
     allowNull: false
   },
-  disclaimer: {
-    type: DataTypes.TEXT,
+  title: {
+    type: DataTypes.STRING,
     allowNull: false
-  },
-  hasDisclaimed: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
-  },
-  isFinished: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
-  },
-  isApproved: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
   },
   publishedAt: {
     type: DataTypes.DATE,
-    allowNull: true
+    defaultValue: DataTypes.NOW
   }
 })
