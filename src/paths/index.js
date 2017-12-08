@@ -1,10 +1,12 @@
+import * as awards from './awards'
 import * as blog from './blog'
 import * as courses from './courses'
 import * as debug from './debug'
 import * as events from './events'
+import * as experiences from './experiences'
+import * as fileUpload from './file_upload'
 import * as login from './login'
 import * as users from './users'
-import * as fileUpload from './file_upload'
 
 /**
  * GET collection => Retrieve all resources in a collection
@@ -12,10 +14,12 @@ import * as fileUpload from './file_upload'
  * GET resource => Retrieve a single resource
  */
 export const gets = [
+  ...awards.gets,
   ...blog.gets,
   ...courses.gets,
   ...debug.gets,
   ...events.gets,
+  ...experiences.gets,
   ...login.gets,
   ...users.gets,
   {
@@ -31,17 +35,19 @@ export const gets = [
  * POST collection => Create a new resource in a collection
  */
 export const posts = [
-  login.post,
-  fileUpload.post
+  fileUpload.post,
+  login.post
 ]
 
 /**
  * PUT resource => Update a resource (replace)
  */
 export const puts = [
-  ...events.puts,
+  ...awards.puts,
   ...blog.puts,
-  ...courses.puts
+  ...courses.puts,
+  ...events.puts,
+  ...experiences.puts
 ]
 
 /**

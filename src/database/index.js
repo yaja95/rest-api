@@ -18,6 +18,8 @@ export const BlogTag = sequelize.import('./blogTag')
 export const ProjectOpportunity = sequelize.import('./projectOpportunity')
 export const ProjectTag = sequelize.import('./projectTag')
 export const Course = sequelize.import('./course')
+export const Experience = sequelize.import('./experience')
+export const Award = sequelize.import('./award')
 
 Event.belongsToMany(EventTag, { through: 'events/eventTags' })
 EventTag.belongsToMany(Event, { through: 'events/eventTags' })
@@ -39,6 +41,9 @@ User.hasMany(Course, { as: 'suggestedCourses', foreignKey: 'suggesterOid' })
 
 Course.belongsToMany(User, { through: 'courseApprovers', as: 'approver' })
 User.belongsToMany(Course, { through: 'courseApprovers', as: 'approvedCourse' })
+
+Experience.belongsTo(User, { as: 'author' })
+User.hasMany(Experience, { as: 'experiences', foreignKey: 'authorOid' })
 
 export async function init () {
   try {
