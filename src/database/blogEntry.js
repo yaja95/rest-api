@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => sequelize.define('blogEntry', {
   },
   publishedAt: {
     type: DataTypes.DATE,
+    allowNull: false,
     defaultValue: DataTypes.NOW
   }
 })

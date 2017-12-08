@@ -29,9 +29,6 @@ EventTag.belongsToMany(Event, { through: 'events/eventTags' })
 BlogEntry.belongsTo(User, { as: 'author' })
 User.hasMany(BlogEntry, { as: 'authoredBlogEntries', foreignKey: 'authorOid' })
 
-BlogEntry.belongsTo(User, { as: 'approver' })
-User.hasMany(BlogEntry, { as: 'approvedBlogEntries', foreignKey: 'approverOid' })
-
 BlogEntry.belongsToMany(BlogTag, { through: 'blogEntries/blogTags' })
 BlogTag.belongsToMany(BlogEntry, { through: 'blogEntries/blogTags' })
 
