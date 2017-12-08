@@ -1,3 +1,4 @@
+import * as awards from './awards'
 import * as blog from './blog'
 import * as courses from './courses'
 import * as debug from './debug'
@@ -13,6 +14,7 @@ import * as users from './users'
  * GET resource => Retrieve a single resource
  */
 export const gets = [
+  ...awards.gets,
   ...blog.gets,
   ...courses.gets,
   ...debug.gets,
@@ -41,6 +43,7 @@ export const posts = [
  * PUT resource => Update a resource (replace)
  */
 export const puts = [
+  ...awards.puts,
   ...blog.puts,
   ...courses.puts,
   ...events.puts,
