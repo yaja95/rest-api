@@ -46,22 +46,22 @@ async function updateFellow (req, res, next) {
 
 export const gets = [
   {
-    path: '/fellow/student',
+    path: '/fellow/faculty',
     handler: getFellows
   },
   {
-    path: '/fellow/student/:id',
+    path: '/fellow/faculty/:id',
     handler: getFellowById
   }
 ]
 
 export const puts = [
   {
-    path: '/fellow/student',
+    path: '/fellow/faculty',
     handler: addFellow
   },
   {
-    path: '/fellow/student/:id',
+    path: '/fellow/faculty/:id',
     handler: updateFellow
   }
 ]

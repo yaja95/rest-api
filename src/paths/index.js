@@ -4,8 +4,10 @@ import * as courses from './courses'
 import * as debug from './debug'
 import * as events from './events'
 import * as experiences from './experiences'
+import * as facultyFellow from './facultyFellow'
 import * as fileUpload from './file_upload'
 import * as login from './login'
+import * as studentFellow from './studentFellow'
 import * as users from './users'
 
 /**
@@ -20,7 +22,9 @@ export const gets = [
   ...debug.gets,
   ...events.gets,
   ...experiences.gets,
+  ...facultyFellow.gets,
   ...login.gets,
+  ...studentFellow.gets,
   ...users.gets,
   {
     path: '/',
@@ -47,7 +51,9 @@ export const puts = [
   ...blog.puts,
   ...courses.puts,
   ...events.puts,
-  ...experiences.puts
+  ...experiences.puts,
+  ...facultyFellow.gets,
+  ...studentFellow.puts
 ]
 
 /**
