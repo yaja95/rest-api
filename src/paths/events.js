@@ -62,8 +62,9 @@ const eventFields = [ 'title', 'description', 'time' ]
 
 async function putEvents (req, res, next) {
   for (const field in eventFields) {
-    if (!req.body.hasOwnProperty) {
+    if (!req.body.hasOwnProperty(field)) {
       res.send(new MissingParameterError(field))
+      return next()
     }
   }
   const created = await Database.Event.create(req.body, eventFields)

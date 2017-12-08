@@ -27,8 +27,9 @@ const experienceFields = [ 'company', 'dateStart', 'dateEnd', 'description', 'im
 
 async function addExperience (req, res, next) {
   for (const field in requiredFields) {
-    if (!req.body.hasOwnProperty) {
+    if (!req.body.hasOwnProperty(field)) {
       res.send(new MissingParameterError(field))
+      return next()
     }
   }
   const created = await Database.Experience.create(req.body, { fields: experienceFields })

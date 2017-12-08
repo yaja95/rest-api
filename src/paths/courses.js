@@ -31,8 +31,9 @@ const courseFields = [ 'description', 'isReal' ]
 
 async function putCourses (req, res, next) {
   for (const field in requiredFields) {
-    if (!req.body.hasOwnProperty) {
+    if (!req.body.hasOwnProperty(field)) {
       res.send(new MissingParameterError(field))
+      return next()
     }
   }
   const created = await Database.Course.create(req.body, { fields: courseFields })

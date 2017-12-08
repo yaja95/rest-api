@@ -26,8 +26,9 @@ const awardFields = [ 'name', 'date', 'winner' ]
 
 async function addAward (req, res, next) {
   for (const field in awardFields) {
-    if (!req.body.hasOwnProperty) {
+    if (!req.body.hasOwnProperty(field)) {
       res.send(new MissingParameterError(field))
+      return next()
     }
   }
   const created = await Database.Award.create(req.body, { fields: awardFields })

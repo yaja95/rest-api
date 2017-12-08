@@ -26,8 +26,9 @@ const fellowFields = [ 'name', 'email', 'department', 'application' ]
 
 async function addFellow (req, res, next) {
   for (const field in fellowFields) {
-    if (!req.body.hasOwnProperty) {
+    if (!req.body.hasOwnProperty(field)) {
       res.send(new MissingParameterError(field, { field: fellowFields }))
+      return next()
     }
   }
   const created = await Database.FacutlyFellow.create(req.body, { field: fellowFields })

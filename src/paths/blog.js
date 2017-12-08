@@ -68,8 +68,9 @@ const blogFields = [ 'contents', 'title', 'publishedAt' ]
 
 async function putBlog (req, res, next) {
   for (const field in requiredFields) {
-    if (!req.body.hasOwnProperty) {
+    if (!req.body.hasOwnProperty(field)) {
       res.send(new MissingParameterError(field))
+      return next()
     }
   }
   const created = await Database.BlogEntry.create(req.body, { fields: blogFields })
