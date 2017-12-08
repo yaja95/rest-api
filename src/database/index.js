@@ -20,6 +20,8 @@ export const ProjectTag = sequelize.import('./projectTag')
 export const Course = sequelize.import('./course')
 export const Experience = sequelize.import('./experience')
 export const Award = sequelize.import('./award')
+export const StudentFellow = sequelize.import('./studentFellow.js')
+export const FacutlyFellow = sequelize.import('./facultyFellow.js')
 
 Event.belongsToMany(EventTag, { through: 'events/eventTags' })
 EventTag.belongsToMany(Event, { through: 'events/eventTags' })

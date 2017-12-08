@@ -36,10 +36,10 @@ async function updateExperience (req, res, next) {
       await experience.update(req.body)
       res.send(experience)
     } else {
-      res.send(new NotFoundError('Blog not found'))
+      res.send(new NotFoundError('Experience not found'))
     }
   } else {
-    res.send(new InvalidArgumentError('Blog id must be an int'))
+    res.send(new InvalidArgumentError('Experience id must be an int'))
   }
   next()
 }
