@@ -24,6 +24,8 @@ async function getFellowById (req, res, next) {
 
 async function addFellow (req, res, next) {
   const created = await Database.FacutlyFellow.create(req.body)
+  console.log(created)
+  console.log('XXXXXXX')
   res.send(created)
   next()
 }

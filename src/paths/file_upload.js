@@ -23,9 +23,13 @@ export const post = {
       password: SFTP_PASSWORD
     })
 
-    console.log(file)
     const filename = `cinc/${UUID.v1()}-${file.name}`
-    await sftp.put(file.path, 'www/' + filename)
+    try {
+      await sftp.put(file.path, 'www/' + filename)
+    } catch (exception) {
+      console.log(exception)
+      throw exception
+    }
     sftp.end()
     res.send('cs.furman.edu/~cdurham/' + filename)
     next()

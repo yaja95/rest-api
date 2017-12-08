@@ -52,7 +52,7 @@ export const puts = [
   ...courses.puts,
   ...events.puts,
   ...experiences.puts,
-  ...facultyFellow.gets,
+  ...facultyFellow.puts,
   ...studentFellow.puts
 ]
 
