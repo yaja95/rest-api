@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize'
 import { JAWSDB_MARIA_URL } from '../secrets'
-import { functions } from '../database/data'
 
 const sequelize = new Sequelize(JAWSDB_MARIA_URL, {
   define: {
